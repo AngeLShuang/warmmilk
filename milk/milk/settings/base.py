@@ -14,6 +14,24 @@ import os
 import platform
 from sys import path
 
+
+# os.path 拼接路径
+# sys.path 查看导包路径
+
+def here(*x):
+    return os.path.join(os.path.abspath(os.path.dirname(__file__)), *x)
+
+
+PROJECT_ROOT = here("..")
+
+
+def root(*x):
+    return os.path.join(os.path.abspath(PROJECT_ROOT), *x)
+
+
+# 追加系统导包路径（目的：1.注册子应用时代码可以更简洁 2.修改django认证模型类时，必须以 应用名.模型名）
+path.append(root('apps'))
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -44,7 +62,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'rest_framework'
+    'rest_framework',
+    'users'
 ]
 
 MIGRATE_APPS = []
@@ -175,7 +194,7 @@ syslog_format = '%(asctime)s [service_variant=hysteria][%(name)s] %(levelname)s 
 
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': False,
+    'disable_existing_loggers': False,  # 是否禁用已经存在的日志器
     'formatters': {
         'standard': {
             'format': '%(asctime)s %(levelname)s %(process)d [%(name)s] %(pathname)s:%(lineno)d - %(message)s',
@@ -244,5 +263,14 @@ LOGGING = {
     }
 }
 
+# DRF配置项
+REST_FRAMEWORK = {
+    # 异常处理
+    'EXCEPTION_HANDLER': 'milk.utils.exceptions.exception_handler',
+}
+
 # Seperate Migrations
 MIGRATION_MODULES = {app: '%s.dev_migrations' % app for app in MIGRATE_APPS}
+
+# 修改Django认证系统的用户模型类
+AUTH_USER_MODEL = 'users.User'
