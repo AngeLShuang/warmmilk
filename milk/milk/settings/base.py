@@ -46,7 +46,14 @@ DEBUG = True
 
 IS_DEV = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+
+# CORS 追加⽩名单
+CORS_ORIGIN_WHITELIST = (
+    'http://127.0.0.1:8080',
+    'http://localhost:8080',
+)
+CORS_ALLOW_CREDENTIALS = True  # 允许携带cookie
 
 # Set up logging for development use (logging to stdout)
 level = 'DEBUG' if DEBUG else 'INFO'
@@ -62,13 +69,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'corsheaders',
     'rest_framework',
-    'users'
+    'users',
 ]
 
 MIGRATE_APPS = []
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -160,6 +169,19 @@ CACHES = {
         },
     },
     'session': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': '',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            'SOCKET_CONNECT_TIMEOUT': 5,
+            'SOCKET_TIMEOUT': 5,
+            "CONNECTION_POOL_KWARGS": {
+                "max_connections": 200,
+            },
+            "SERIALIZER": "django_redis.serializers.json.JSONSerializer",
+        },
+    },
+    'verify_codes': {
         'BACKEND': 'django_redis.cache.RedisCache',
         'LOCATION': '',
         'OPTIONS': {
