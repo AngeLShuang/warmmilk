@@ -196,6 +196,10 @@ CACHES = {
     },
 }
 
+DJANGO_REDIS_IGNORE_EXCEPTIONS = True
+DJANGO_REDIS_LOG_IGNORED_EXCEPTIONS = True
+DJANGO_REDIS_CONNECTION_FACTORY = "connectionfactory.DecodeConnectionFactory"
+
 # 配置session存储3种方式
 # 存储在数据库中，如下设置可写可不写，是默认存储模式
 # SESSION_ENGINE = "django.contrib.sessions.backends.db"
