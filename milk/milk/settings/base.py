@@ -73,6 +73,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'users',
+    'oauth',
 ]
 
 MIGRATE_APPS = []
@@ -318,3 +319,9 @@ MIGRATION_MODULES = {app: '%s.dev_migrations' % app for app in MIGRATE_APPS}
 
 # 修改Django认证系统的用户模型类
 AUTH_USER_MODEL = 'users.User'
+
+
+# QQ登录参数
+QQ_CLIENT_ID = '101514053'
+QQ_CLIENT_SECRET = '1075e75648566262ea35afa688073012'
+QQ_REDIRECT_URI = 'http://www.meiduo.site:8080/oauth_callback.html'

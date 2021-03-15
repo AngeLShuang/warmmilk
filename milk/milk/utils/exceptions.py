@@ -5,6 +5,8 @@ from redis.exceptions import RedisError
 from rest_framework.response import Response
 from rest_framework import status
 
+from milk.utils import error_code as ec
+
 # 获取在配置⽂件中定义的logger，⽤来记录⽇志
 logger = logging.getLogger('django')
 
@@ -23,5 +25,5 @@ def exception_handler(exc, context):
         if isinstance(exc, DatabaseError) or isinstance(exc, RedisError):
             # 数据库异常
             logger.error('[%s] %s' % (view, exc))
-            response = Response({'message': '服务器内部错误'}, status=status.HTTP_507_INSUFFICIENT_STORAGE)
+            response = Response(ec.SERVER_ERR, status=status.HTTP_507_INSUFFICIENT_STORAGE)
     return response
