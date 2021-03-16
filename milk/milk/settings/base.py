@@ -297,7 +297,7 @@ REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'milk.utils.exceptions.exception_handler',
     # 认证
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',  # JWT认证类，放在第一位是默认项
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
     ),
@@ -320,8 +320,18 @@ MIGRATION_MODULES = {app: '%s.dev_migrations' % app for app in MIGRATE_APPS}
 # 修改Django认证系统的用户模型类
 AUTH_USER_MODEL = 'users.User'
 
-
 # QQ登录参数
 QQ_CLIENT_ID = '101514053'
 QQ_CLIENT_SECRET = '1075e75648566262ea35afa688073012'
 QQ_REDIRECT_URI = 'http://www.milk.site:8080/oauth_callback.html'
+
+# 邮件配置
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.163.com'
+EMAIL_PORT = 25
+# 发送邮件的邮箱
+EMAIL_HOST_USER = ''
+# 在邮箱中设置的客户端授权密码
+EMAIL_HOST_PASSWORD = ''
+# 收件⼈看到的发件⼈
+EMAIL_FROM = ''

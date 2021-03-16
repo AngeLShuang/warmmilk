@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView, RetrieveAPIView, UpdateAPIView
 from rest_framework.response import Response
 from rest_framework import status
-
-from .serializer import CreateUserSerializer
+from rest_framework.permissions import IsAuthenticated
+from .serializer import CreateUserSerializer, UserDetailSerializer, EmailSerializer
 from .models import User
 
 
@@ -39,3 +39,23 @@ class MobileCountView(APIView):
             'count': count
         }
         return Response(data)
+
+
+class UserDetailView(RetrieveAPIView):
+    """提供用户详细信息"""
+    serializer_class = UserDetailSerializer
+    # 用户身份验证：是否是登录用户
+    permission_classes = [IsAuthenticated]
+
+    # 重写get_object(self)，返回用户详情模型对象
+    def get_object(self):
+        return self.request.user
+
+
+class EmailView(UpdateAPIView):
+    """更新邮箱"""
+    serializer_class = EmailSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user
