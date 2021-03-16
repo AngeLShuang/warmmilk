@@ -324,4 +324,4 @@ AUTH_USER_MODEL = 'users.User'
 # QQ登录参数
 QQ_CLIENT_ID = '101514053'
 QQ_CLIENT_SECRET = '1075e75648566262ea35afa688073012'
-QQ_REDIRECT_URI = 'http://www.meiduo.site:8080/oauth_callback.html'
+QQ_REDIRECT_URI = 'http://www.milk.site:8080/oauth_callback.html'
