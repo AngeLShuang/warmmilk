@@ -22,11 +22,11 @@ var vm = new Vue({
         error_phone_message: '',
     },
     methods: {
-        // 检查⽤户名
+        // 检查用户名
         check_username: function () {
             var len = this.username.length;
             if (len < 5 || len > 20) {
-                this.error_name_message = '请输⼊5-20个字符的⽤户名';
+                this.error_name_message = '请输⼊5-20个字符的用户名';
                 this.error_name = true;
             } else {
                 this.error_name = false;
@@ -38,7 +38,7 @@ var vm = new Vue({
                 })
                     .then(response => {
                         if (response.data.count > 0) {
-                            this.error_name_message = '⽤户名已存在';
+                            this.error_name_message = '用户名已存在';
                             this.error_name = true;
                         } else {
                             this.error_name = false;
@@ -122,7 +122,7 @@ var vm = new Vue({
             })
                 .then(response => {
                     // 表示后端发送短信成功
-                    // 倒计时60秒，60秒后允许⽤户再次点击发送短信验证码的按钮
+                    // 倒计时60秒，60秒后允许用户再次点击发送短信验证码的按钮
                     var num = 60;
                     // 设置⼀个计时器
                     var t = setInterval(() => {
@@ -173,7 +173,7 @@ var vm = new Vue({
                     responseType: 'json'
                 })
                     .then(response => {
-                        // 记录⽤户的登录状态
+                        // 记录用户的登录状态
                         sessionStorage.clear();
                         localStorage.clear();
                         localStorage.token = response.data.token;

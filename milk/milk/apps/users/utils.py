@@ -22,7 +22,7 @@ def get_user_by_account(account):
             # ⼿机号登录
             user = User.objects.get(mobile=account)
         else:
-            # ⽤户名登录
+            # 用户名登录
             user = User.objects.get(username=account)
     except User.DoesNotExist:
         return None

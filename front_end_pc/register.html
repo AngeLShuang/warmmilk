@@ -27,7 +27,7 @@
             <form @submit.prevent="on_submit">
                 <ul>
                     <li>
-                        <label>⽤户名:</label>
+                        <label>用户名:</label>
                         <input type="text" v-model="username" @blur="check_username" name="user_name" id="user_name">
                         <span v-show="error_name" class="error_tip">{{ error_name_message }}</span>
                     </li>

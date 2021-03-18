@@ -6,7 +6,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from .serializer import CreateUserSerializer, UserDetailSerializer, EmailSerializer
 from .models import User
-
+from milk.utils import error_code as ec
 
 class UserView(CreateAPIView):
     """用户注册"""
@@ -59,3 +59,21 @@ class EmailView(UpdateAPIView):
 
     def get_object(self):
         return self.request.user
+
+
+class VerifyEmailView(APIView):
+    """验证邮箱"""
+
+    def get(self, request):
+        # 获取token参数
+        token = request.query_params.get('token')
+        if not token:
+            return Response(ec.EMAIL_TOKEN_LOSE, status=status.HTTP_400_BAD_REQUEST)
+        # 验证token参数：提取user
+        user = User.check_verify_email_token(token)
+        if not user:
+            return Response(ec.EMAIL_TOKEN_INVALID, status=status.HTTP_400_BAD_REQUEST)
+        # 修改用户的email_active的值为True，完成验证
+        user.email_active = True
+        user.save()
+        return Response(ec.SUCCESS)

@@ -7,7 +7,7 @@ from rest_framework import status
 
 from milk.utils import error_code as ec
 
-# 获取在配置⽂件中定义的logger，⽤来记录⽇志
+# 获取在配置⽂件中定义的logger，用来记录⽇志
 logger = logging.getLogger('django')
 
 
@@ -18,7 +18,7 @@ def exception_handler(exc, context):
     :param context: 抛出异常的上下文(包含request和view对象)
     :return: Response响应对象
     """
-    # 调⽤drf框架原⽣的异常处理⽅法
+    # 调用drf框架原⽣的异常处理⽅法
     response = drf_exception_handler(exc, context)
     if response is None:
         view = context['view']

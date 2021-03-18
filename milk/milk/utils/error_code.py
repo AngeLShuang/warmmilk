@@ -32,3 +32,13 @@ QQ_CODE_ERR = {
     "errcode": 2002,
     "message": "缺少code"
 }
+
+EMAIL_TOKEN_LOSE = {
+    "errcode": 2003,
+    "message": "缺少token"
+}
+
+EMAIL_TOKEN_INVALID = {
+    "errcode": 2004,
+    "message": '无效的token'
+}

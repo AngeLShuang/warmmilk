@@ -22,8 +22,8 @@ class CreateUserSerializer(serializers.ModelSerializer):
                 'min_length': 5,
                 'max_length': 20,
                 'error_messages': {
-                    'min_length': '仅允许5-20个字符的⽤户名',
-                    'max_length': '仅允许5-20个字符的⽤户名',
+                    'min_length': '仅允许5-20个字符的用户名',
+                    'max_length': '仅允许5-20个字符的用户名',
                 }
             },
             'password': {
@@ -46,7 +46,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
     def validate_allow(self, value):
         """检验用户是否同意协议"""
         if value != 'true':
-            raise serializers.ValidationError('请同意⽤户协议')
+            raise serializers.ValidationError('请同意用户协议')
         return value
 
     def validate(self, data):
@@ -72,7 +72,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
         del validated_data['sms_code']
         del validated_data['allow']
         user = User.objects.create(**validated_data)
-        # 调⽤django的认证系统加密密码
+        # 调用django的认证系统加密密码
         user.set_password(validated_data['password'])
         user.save()
         jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER  # 引用jwt中的叫jwt_payload_handler函数
@@ -109,6 +109,5 @@ class EmailSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         instance.email = validated_data['email']
         instance.save()
-
-        send_verify_email.delay(instance.email, verify_url="")
+        send_verify_email.delay(instance.email, verify_url=instance.generate_email_verify_url())
         return instance

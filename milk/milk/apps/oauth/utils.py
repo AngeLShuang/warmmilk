@@ -5,7 +5,7 @@ from django.conf import settings
 
 def generate_save_user_token(openid):
     """
-    使⽤itsdangerous对原始的openid进行签名
+    使用itsdangerous对原始的openid进行签名
     :param openid: 原始的openid
     :return: 签名后的openid
     """
