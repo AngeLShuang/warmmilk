@@ -2,15 +2,19 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.generics import CreateAPIView, RetrieveAPIView, UpdateAPIView
 from rest_framework.response import Response
+from rest_framework import mixins
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
-from .serializer import CreateUserSerializer, UserDetailSerializer, EmailSerializer
+from rest_framework.viewsets import GenericViewSet
+from . import serializers
+from . import constants
 from .models import User
 from milk.utils import error_code as ec
 
+
 class UserView(CreateAPIView):
     """用户注册"""
-    serializer_class = CreateUserSerializer
+    serializer_class = serializers.CreateUserSerializer
 
 
 class UsernameCountView(APIView):
@@ -43,7 +47,7 @@ class MobileCountView(APIView):
 
 class UserDetailView(RetrieveAPIView):
     """提供用户详细信息"""
-    serializer_class = UserDetailSerializer
+    serializer_class = serializers.UserDetailSerializer
     # 用户身份验证：是否是登录用户
     permission_classes = [IsAuthenticated]
 
@@ -54,7 +58,7 @@ class UserDetailView(RetrieveAPIView):
 
 class EmailView(UpdateAPIView):
     """更新邮箱"""
-    serializer_class = EmailSerializer
+    serializer_class = serializers.EmailSerializer
     permission_classes = [IsAuthenticated]
 
     def get_object(self):
@@ -77,3 +81,24 @@ class VerifyEmailView(APIView):
         user.email_active = True
         user.save()
         return Response(ec.SUCCESS)
+
+
+class AddressViewSet(mixins.CreateModelMixin, GenericViewSet):
+    """
+    用户地址增删改查
+    """
+    serializer_class = serializers.UserAddressSerializer
+    permission_classes = [IsAuthenticated]
+
+    # POST /addresses/
+    def create(self, request, *args, **kwargs):
+        # 判断⽤户地址数量是否超过上线
+        count = request.user.addresses.count()
+        # count = Address.objects.filter(user=request.user).count()
+        if count >= constants.USER_ADDRESS_COUNTS_LIMIT:
+            return Response(ec.ADDRESS_LIMIT, status=status.HTTP_400_BAD_REQUEST)
+        return super().create(request, *args, **kwargs)
+        # serializer = self.get_serializer(data=request.data)
+        # serializer.is_valid(raise_exception=True)
+        # serializer.save()
+        # return Response(serializer.data, status=status.HTTP_201_CREATED)

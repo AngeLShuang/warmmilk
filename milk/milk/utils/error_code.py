@@ -42,3 +42,8 @@ EMAIL_TOKEN_INVALID = {
     "errcode": 2004,
     "message": '无效的token'
 }
+
+ADDRESS_LIMIT = {
+    "errcode": 2005,
+    "message": '保存地址数据已达到上限'
+}

@@ -9,7 +9,7 @@ from django.conf import settings
 from milk.utils import error_code as ec
 from .models import OAuthQQUser
 from .utils import generate_save_user_token
-from .serializer import QQAuthUserSerializer
+from .serializers import QQAuthUserSerializer
 
 logger = logging.getLogger('django')
 

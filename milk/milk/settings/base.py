@@ -74,6 +74,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'users',
     'oauth',
+    'areas',
 ]
 
 MIGRATE_APPS = []
@@ -302,6 +303,15 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
     ),
 }
+
+# DRF扩展
+REST_FRAMEWORK_EXTENSIONS = {
+    # 缓存时间
+    'DEFAULT_CACHE_RESPONSE_TIMEOUT': 60 * 60,
+    # 缓存存储
+    'DEFAULT_USE_CACHE': 'default',
+}
+
 # JWT的有效期
 JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1),
