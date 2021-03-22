@@ -19,7 +19,7 @@ def get_user_by_account(account):
     """根据传入的账号获取用户信息"""
     try:
         if re.match('^1[3-9]\d{9}$', account):
-            # ⼿机号登录
+            # 手机号登录
             user = User.objects.get(mobile=account)
         else:
             # 用户名登录

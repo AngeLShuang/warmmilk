@@ -40,7 +40,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
     def validate_mobile(self, value):
         """验证手机号"""
         if not re.match(r'^1[3-9]\d{9}$', value):
-            raise serializers.ValidationError('⼿机号格式错误')
+            raise serializers.ValidationError('手机号格式错误')
         return value
 
     def validate_allow(self, value):
@@ -130,11 +130,11 @@ class UserAddressSerializer(serializers.ModelSerializer):
 
     def validate_mobile(self, value):
         """
-        验证⼿机号
+        验证手机号
         """
 
         if not re.match(r'^1[3-9]\d{9}$', value):
-            raise serializers.ValidationError('⼿机号格式错误')
+            raise serializers.ValidationError('手机号格式错误')
         return value
 
     def create(self, validated_data):
@@ -142,3 +142,14 @@ class UserAddressSerializer(serializers.ModelSerializer):
 
         validated_data['user'] = user
         return Address.objects.create(**validated_data)
+
+
+class AddressTitleSerializer(serializers.ModelSerializer):
+    """
+    地址标题
+    """
+    province = serializers.StringRelatedField(read_only=True)
+
+    class Meta:
+        model = Address
+        fields = ('title',)

@@ -10,7 +10,7 @@ class QQAuthUserSerializer(serializers.Serializer):
     QQ登录创建用户序列化器
     """
     access_token = serializers.CharField(label='操作凭证')
-    mobile = serializers.RegexField(label='⼿机号', regex=r'^1[3-9]\d{9}$')
+    mobile = serializers.RegexField(label='手机号', regex=r'^1[3-9]\d{9}$')
     password = serializers.CharField(label='密码', max_length=20, min_length=8)
     sms_code = serializers.CharField(label='短信验证码')
 

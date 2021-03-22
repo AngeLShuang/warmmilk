@@ -6,6 +6,7 @@ from rest_framework import mixins
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
+from rest_framework.decorators import action
 from . import serializers
 from . import constants
 from .models import User
@@ -83,12 +84,15 @@ class VerifyEmailView(APIView):
         return Response(ec.SUCCESS)
 
 
-class AddressViewSet(mixins.CreateModelMixin, GenericViewSet):
+class AddressViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin, GenericViewSet):
     """
     用户地址增删改查
     """
     serializer_class = serializers.UserAddressSerializer
     permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return self.request.user.addresses.filter(is_delete=False)
 
     # POST /addresses/
     def create(self, request, *args, **kwargs):
@@ -102,3 +106,42 @@ class AddressViewSet(mixins.CreateModelMixin, GenericViewSet):
         # serializer.is_valid(raise_exception=True)
         # serializer.save()
         # return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    # GET /addresses/
+    def list(self, request, *args, **kwargs):
+        # 用户地址列表数据
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        user = self.request.user
+        return Response({
+            "user_id": user.id,
+            "default_address_id": user.default_address,
+            "limit": constants.USER_ADDRESS_COUNTS_LIMIT,
+            "addresses": serializer.data
+        })
+
+    # DELETE /addresses/<pk>/
+    def destroy(self, request, *args, **kwargs):
+        # 逻辑删除
+        address = self.get_object()
+        address.is_deleted = True
+        address.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    # DELETE /addresses/<pk>/status/
+    def status(self, request, *args, **kwargs):
+        # 设置默认地址
+        address = self.get_object()
+        request.user.default_address = address
+        request.user.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    # PUT /addresses/<pk>/title/
+    @action(detail=True, methods=['PUT'])
+    def title(self, request, pk=None):
+        # 修改标题
+        address = self.get_object()
+        serializer = serializers.AddressTitleSerializer(instance=address, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
