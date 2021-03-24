@@ -75,6 +75,8 @@ INSTALLED_APPS = [
     'users',
     'oauth',
     'areas',
+    'goods',
+    'contents',
 ]
 
 MIGRATE_APPS = []
@@ -345,3 +347,9 @@ EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 # 收件⼈看到的发件⼈
 EMAIL_FROM = ''
+
+# django⽂件存储
+DEFAULT_FILE_STORAGE = 'milk.utils.fastdfs.fdfs_storage.FastDFSStorage'
+# FastDFS
+FDFS_BASE_URL = 'http://192.168.103.210:8888/'
+FDFS_CLIENT_CONF = os.path.join(BASE_DIR, 'utils/fastdfs/client.conf')

@@ -128,7 +128,7 @@ class AddressViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin, GenericVi
         address.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-    # DELETE /addresses/<pk>/status/
+    # PUT /addresses/<pk>/status/
     def status(self, request, *args, **kwargs):
         # 设置默认地址
         address = self.get_object()
