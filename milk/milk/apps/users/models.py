@@ -63,7 +63,7 @@ class Address(BaseModel):
     place = models.CharField(max_length=50, verbose_name='地址')
     mobile = models.CharField(max_length=11, verbose_name='手机')
     tel = models.CharField(max_length=20, null=True, blank=True, default='', verbose_name='固定电话')
-    email = models.CharField(max_length=30, null=True, blank=True, default='', verbose_name='电⼦邮箱')
+    email = models.CharField(max_length=30, null=True, blank=True, default='', verbose_name='电子邮箱')
     is_deleted = models.BooleanField(default=False, verbose_name='逻辑删除')
 
     class Meta:

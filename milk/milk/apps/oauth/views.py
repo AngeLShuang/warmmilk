@@ -57,7 +57,7 @@ class QQAuthUserView(APIView):
             access_token_openid = generate_save_user_token(openid)
             return Response({'access_token': access_token_openid})
         else:
-            # 如果openid已绑定商城用户，直接⽣成JWT token，并返回
+            # 如果openid已绑定商城用户，直接生成JWT token，并返回
             jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
             jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
             # 获取oauth_user关联的user
@@ -74,7 +74,7 @@ class QQAuthUserView(APIView):
         serializer.is_valid(raise_exception=True)
         # 保存校验结果，并接收
         user = serializer.save()
-        # ⽣成JWT token，并响应
+        # 生成JWT token，并响应
         jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
         jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
         payload = jwt_payload_handler(user)

@@ -129,7 +129,7 @@ var vm = new Vue({
                         if (num == 1) {
                             // 如果计时器到最后, 清除计时器对象
                             clearInterval(t);
-                            // 将点击获取验证码的按钮展示的⽂本回复成原始⽂本
+                            // 将点击获取验证码的按钮展示的文本回复成原始文本
                             this.sms_code_tip = '获取短信验证码';
                             // 将点击按钮的onclick事件函数恢复回去
                             this.sending_flag = false;

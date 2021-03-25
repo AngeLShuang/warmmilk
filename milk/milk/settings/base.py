@@ -72,6 +72,10 @@ INSTALLED_APPS = [
 
     'corsheaders',
     'rest_framework',
+    'ckeditor',  # 富文本编辑器
+    'ckeditor_uploader',  # 富文本编辑器上传图片模块
+    'django_crontab',
+
     'users',
     'oauth',
     'areas',
@@ -97,7 +101,7 @@ ROOT_URLCONF = 'milk.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],  # 指定模板文件加载路径
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -143,7 +147,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'zh-hans'
 
 TIME_ZONE = 'Asia/Shanghai'
 
@@ -348,8 +352,27 @@ EMAIL_HOST_PASSWORD = ''
 # 收件⼈看到的发件⼈
 EMAIL_FROM = ''
 
-# django⽂件存储
+# django文件存储
 DEFAULT_FILE_STORAGE = 'milk.utils.fastdfs.fdfs_storage.FastDFSStorage'
 # FastDFS
 FDFS_BASE_URL = 'http://192.168.103.210:8888/'
 FDFS_CLIENT_CONF = os.path.join(BASE_DIR, 'utils/fastdfs/client.conf')
+
+# 富文本编辑器ckeditor配置
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',  # 工具条功能
+        'height': 300,  # 编辑器高度
+        # 'width': 300, # 编辑器宽
+    },
+}
+CKEDITOR_UPLOAD_PATH = ''  # 上传图片保存路径，使用了FastDFS，所以此处设为''
+
+# 静态化主页存储路径
+GENERATED_STATIC_HTML_FILES_DIR = os.path.join(os.path.dirname(os.path.dirname(BASE_DIR)), 'front_end_pc')
+
+# 定时任务
+CRONJOBS = [
+    # 每1分钟执⾏⼀次生成主页静态⽂件
+    ('*/1 * * * *', 'contents.crons.generate_static_index_html', '>>/data/milk/crontab.log')
+]

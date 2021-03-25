@@ -13,7 +13,7 @@ def generate_save_user_token(openid):
     serializer = TJSSerializer(settings.SECRET_KEY, 600)
     # 准备原始的openid
     data = {'openid': openid}
-    # 对openid进⾏签名,返回签名之后的bytes类型的字符串
+    # 对openid进行签名,返回签名之后的bytes类型的字符串
     token = serializer.dumps(data)
     # 将bytes类型的字符串转成标准的字符串，并返回
     return token.decode()

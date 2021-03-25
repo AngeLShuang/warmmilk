@@ -96,7 +96,7 @@ class AddressViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin, GenericVi
 
     # POST /addresses/
     def create(self, request, *args, **kwargs):
-        # 判断⽤户地址数量是否超过上线
+        # 判断用户地址数量是否超过上线
         count = request.user.addresses.count()
         # count = Address.objects.filter(user=request.user).count()
         if count >= constants.USER_ADDRESS_COUNTS_LIMIT:
