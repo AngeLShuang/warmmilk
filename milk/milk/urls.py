@@ -23,6 +23,8 @@ urlpatterns = [
     path('', include('users.urls')),
     path('oauth/', include('oauth.urls')),
     path('', include('areas.urls')),
+    path('^', include('goods.urls')),
+
     # 富文本编辑器
     path('ckeditor/', include('ckeditor_uploader.urls'))
 ]
