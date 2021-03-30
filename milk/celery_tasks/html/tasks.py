@@ -35,7 +35,7 @@ def generate_static_sku_detail_html(sku_id):
     # 获取当前sku的信息
     sku = SKU.objects.get(id=sku_id)
     sku.images = sku.skuimage_set.all()
-    # ⾯包屑导航信息中的频道
+    # 面包屑导航信息中的频道
     goods = sku.goods
     goods.channel = goods.category1.goodschannel_set.all()[0]
     # 构建当前商品的规格键

@@ -388,6 +388,6 @@ GENERATED_STATIC_HTML_FILES_DIR = os.path.join(os.path.dirname(os.path.dirname(B
 
 # 定时任务
 CRONJOBS = [
-    # 每1分钟执⾏⼀次生成主页静态⽂件
+    # 每1分钟执行⼀次生成主页静态⽂件
     ('*/1 * * * *', 'contents.crons.generate_static_index_html', '>>/data/milk/crontab.log')
 ]

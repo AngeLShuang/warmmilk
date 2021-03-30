@@ -12,20 +12,20 @@ var vm = new Vue({
         send_email_btn_disabled: false,
         send_email_tip: '重新发送验证邮件',
         email_error: false,
-        histories: [] // 记录⽤户浏览数据
+        histories: [] // 记录用户浏览数据
     },
     mounted: function () {
-        // 判断⽤户的登录状态
+        // 判断用户的登录状态
         if (this.user_id && this.token) {
             axios.get(this.host + '/user/', {
-                // 向后端传递JWT token的⽅法
+                // 向后端传递JWT token的方法
                 headers: {
                     'Authorization': 'JWT ' + this.token
                 },
                 responseType: 'json',
             })
                 .then(response => {
-                    // 加载⽤户数据
+                    // 加载用户数据
                     this.user_id = response.data.id;
                     this.username = response.data.username;
                     this.mobile = response.data.mobile;

@@ -18,7 +18,7 @@ class QQAuthURLView(APIView):
     """提供QQ登录网址"""
 
     def get(self, request):
-        # next表示从哪个界面进⼊到的登录界面，将来登录成功后，就⾃动回到那个界面
+        # next表示从哪个界面进入到的登录界面，将来登录成功后，就⾃动回到那个界面
         next = request.query_params.get('next', '/')
         # 获取QQ登录界面网址
         oauth = OAuthQQ(client_id=settings.QQ_CLIENT_ID, client_secret=settings.QQ_CLIENT_SECRET,

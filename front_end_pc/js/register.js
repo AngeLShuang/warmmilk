@@ -26,7 +26,7 @@ var vm = new Vue({
         check_username: function () {
             var len = this.username.length;
             if (len < 5 || len > 20) {
-                this.error_name_message = '请输⼊5-20个字符的用户名';
+                this.error_name_message = '请输入5-20个字符的用户名';
                 this.error_name = true;
             } else {
                 this.error_name = false;
@@ -70,7 +70,7 @@ var vm = new Vue({
             if (re.test(this.mobile)) {
                 this.error_phone = false;
             } else {
-                this.error_phone_message = '您输⼊的手机号格式不正确';
+                this.error_phone_message = '您输入的手机号格式不正确';
                 this.error_phone = true;
             }
             if (this.error_phone == false) {
@@ -110,13 +110,13 @@ var vm = new Vue({
                 return;
             }
             this.sending_flag = true;
-            // 校验参数，保证输⼊框有数据填写
+            // 校验参数，保证输入框有数据填写
             this.check_phone();
             if (this.error_phone == true) {
                 this.sending_flag = false;
                 return;
             }
-            // 向后端接⼝发送请求，让后端发送短信验证码
+            // 向后端接口发送请求，让后端发送短信验证码
             axios.get(this.host + '/verify/smscode/' + this.mobile + '/', {
                 responseType: 'json'
             })

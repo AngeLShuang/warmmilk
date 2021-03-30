@@ -18,7 +18,7 @@ def exception_handler(exc, context):
     :param context: 抛出异常的上下文(包含request和view对象)
     :return: Response响应对象
     """
-    # 调用drf框架原生的异常处理⽅法
+    # 调用drf框架原生的异常处理方法
     response = drf_exception_handler(exc, context)
     if response is None:
         view = context['view']

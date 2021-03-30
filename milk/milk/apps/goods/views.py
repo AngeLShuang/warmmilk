@@ -6,7 +6,7 @@ from .models import SKU
 
 class SKUListView(ListAPIView):
     """商品列表"""
-    # 指定查询集:因为要展示的商品列表需要明确的指定分类，所以重写获取查询集⽅法
+    # 指定查询集:因为要展示的商品列表需要明确的指定分类，所以重写获取查询集方法
     # queryset = SKU.objects.all()
     # 指定序列化器
     serializer_class = SKUSerializer
