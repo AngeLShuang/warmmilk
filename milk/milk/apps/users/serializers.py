@@ -2,6 +2,7 @@ from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
 from celery_tasks.email.tasks import send_verify_email
 from .models import User, Address
+from goods.models import SKU
 
 import re
 from django_redis import get_redis_connection
@@ -153,3 +154,37 @@ class AddressTitleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
         fields = ('title',)
+
+
+class UserBrowseHistorySerializer(serializers.Serializer):
+    """添加浏览记录的校验"""
+    sku_id = serializers.IntegerField(label='商品SKU编号', min_value=1)
+
+    def validate_sku_id(self, value):
+        """校验sku_id"""
+        try:
+            SKU.objects.get(id=value)
+        except SKU.DoesNotExist:
+            raise serializers.ValidationError('sku id 不存在')
+        # 没有异常就返回校验之后的sku_id
+        return value
+
+    def create(self, validated_data):
+        """存储浏览记录的行为"""
+        # 获取用户信息
+        user_id = self.context['request'].user.id
+        # 读取验证后的sku_id
+        sku_id = validated_data['sku_id']
+        # 获取连接都redis对象
+        redis_conn = get_redis_connection('history')
+        pl = redis_conn.pipeline()
+        # 去重
+        pl.lrem('history_%s' % user_id, 0, sku_id)
+        # 保存
+        pl.lpush('history_%s' % user_id, sku_id)
+        # 截取最前面的五个元素
+        pl.ltrim('history_%s' % user_id, 0, 4)
+        # 执行
+        pl.execute()
+        # 返回
+        return validated_data

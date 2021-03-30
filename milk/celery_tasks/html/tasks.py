@@ -56,7 +56,7 @@ def generate_static_sku_detail_html(sku_id):
     for s in skus:
         # 获取sku的规格参数
         s_specs = s.skuspecification_set.order_by('spec_id')
-        # ⽤于形成规格参数-sku字典的键
+        # 用于形成规格参数-sku字典的键
         key = []
         for spec in s_specs:
             key.append(spec.option.id)

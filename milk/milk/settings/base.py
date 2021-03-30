@@ -203,6 +203,19 @@ CACHES = {
             "SERIALIZER": "django_redis.serializers.json.JSONSerializer",
         },
     },
+    'history': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': '',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            'SOCKET_CONNECT_TIMEOUT': 5,
+            'SOCKET_TIMEOUT': 5,
+            "CONNECTION_POOL_KWARGS": {
+                "max_connections": 200,
+            },
+            "SERIALIZER": "django_redis.serializers.json.JSONSerializer",
+        },
+    },
 }
 
 DJANGO_REDIS_IGNORE_EXCEPTIONS = True

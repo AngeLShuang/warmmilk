@@ -8,7 +8,7 @@ def get_categories():
     :return 菜单字典
     """
     # 商品频道及分类菜单
-    # 使⽤有序字典保存类别的顺序
+    # 使用有序字典保存类别的顺序
     # categories = {
     # 1: { # 组1
     # 'channels': [{'id':, 'name':, 'url':},{}, {}...],

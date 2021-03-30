@@ -12,7 +12,7 @@ class SKUListView(ListAPIView):
     serializer_class = SKUSerializer
     # 指定过滤器:需要指定排序后端
     filter_backends = (OrderingFilter,)
-    # 指定排序字段：搭配filter_backends使⽤的
+    # 指定排序字段：搭配filter_backends使用的
     ordering_fields = ('create_time', 'price', 'sales')
 
     def get_queryset(self):
