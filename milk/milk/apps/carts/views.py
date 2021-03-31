@@ -219,3 +219,66 @@ class CartView(APIView):
             else:
                 response.delete_cookie('cart')
             return response
+
+
+class CartSelectAllView(APIView):
+    """购物车全选 """
+
+    def perform_authentication(self, request):
+        """
+        重写父类的用户验证⽅法，不在进⼊视图前就检查JWT
+        """
+        pass
+
+    def put(self, request):
+        """购物车商品全选"""
+
+        # 序列化器使用
+        serializer = serializers.CartSelectAllSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        selected = serializer.validated_data['selected']
+        try:
+            user = request.user
+        except Exception:
+            # 验证失败，用户未登录
+            user = None
+        if user is not None and user.is_authenticated:
+            # 用户已登录，操作redis购物车
+            redis_conn = get_redis_connection('cart')
+
+            # 读取redis中的购物车数据
+            redis_dict_cart = redis_conn.hgetall('cart_%s' % user.id)
+            # 将购物车中所有的sku_id添加或者移除
+            sku_ids = redis_dict_cart.keys()
+            if selected:
+                redis_conn.sadd('selected_%s' % user.id, *sku_ids)
+            else:
+                redis_conn.srem('selected_%s' % user.id, *sku_ids)
+
+            # 响应结果
+            return Response({'message': 'OK'})
+        else:
+            # 用户未登录，操作cookie购物车
+            cart_str = request.COOKIES.get('cart')
+
+            # 读取cookie中的购物车数据
+            if cart_str:
+                cart_str_bytes = cart_str.encode()
+                cart_dict_bytes = base64.b64decode(cart_str_bytes)
+                cart_dict = pickle.loads(cart_dict_bytes)
+            else:
+                cart_dict = {}
+
+        # 遍历购物车字典将所有的sku_id对应的selected设置为用户传⼊的selected
+        for sku_id in cart_dict:
+            cart_dict[sku_id]['selected'] = selected
+
+        # 构造购物车字符串
+        cookie_cart_dict_bytes = pickle.dumps(cart_dict)
+        cookie_cart_str_bytes = base64.b64encode(cookie_cart_dict_bytes)
+        cookie_cart_str = cookie_cart_str_bytes.decode()
+
+        # cookie中写⼊购物车字符串
+        response = Response({'message': 'OK'})
+        response.set_cookie('cart', cookie_cart_str)
+        return response

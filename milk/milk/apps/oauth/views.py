@@ -6,6 +6,7 @@ from QQLoginTool.QQtool import OAuthQQ
 import logging
 from django.conf import settings
 
+from apps.carts.utils import merge_cart_cookie_to_redis
 from milk.utils import error_code as ec
 from .models import OAuthQQUser
 from .utils import generate_save_user_token
@@ -64,7 +65,10 @@ class QQAuthUserView(APIView):
             user = oauthqquser_model.user
             payload = jwt_payload_handler(user)
             token = jwt_encode_handler(payload)
-            return Response({'token': token, 'user_id': user.id, 'username': user.username})
+            response = Response({'token': token, 'user_id': user.id, 'username': user.username})
+            # 合并购物车
+            response = merge_cart_cookie_to_redis(request, response, user)
+            return response
 
     def post(self, request):
         """使用open_id绑定一杯热牛奶用户"""
