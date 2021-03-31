@@ -81,6 +81,7 @@ INSTALLED_APPS = [
     'areas',
     'goods',
     'contents',
+    'orders'
 ]
 
 MIGRATE_APPS = []

@@ -37,7 +37,7 @@ def merge_cart_cookie_to_redis(request, response, user):
         if cookie_dict['selected']:
             redis_cart_selected.add(sku_id)
 
-    # 将redis_cart_dict写⼊到数据库
+    # 将redis_cart_dict写入到数据库
     pl = redis_conn.pipeline()
     pl.hmset('cart_%s' % user.id, new_redis_cart_dict)
     pl.sadd('selected_%s' % user.id, *redis_cart_selected)

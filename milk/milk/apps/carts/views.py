@@ -92,7 +92,7 @@ class CartView(APIView):
             redis_cart = redis_conn.hgetall('cart_%s' % user.id)
             # 获取redis中的选中状态
             redis_selected = redis_conn.smembers('selected_%s' % user.id)
-            # 将redis中的两个数据统⼀格式，跟cookie中的格式⼀致，⽅便统⼀查询
+            # 将redis中的两个数据统⼀格式，跟cookie中的格式⼀致，方便统⼀查询
             cart_dict = {}
             for sku_id, count in redis_cart.items():
                 cart_dict[int(sku_id)] = {
@@ -226,7 +226,7 @@ class CartSelectAllView(APIView):
 
     def perform_authentication(self, request):
         """
-        重写父类的用户验证⽅法，不在进⼊视图前就检查JWT
+        重写父类的用户验证方法，不在进入视图前就检查JWT
         """
         pass
 
@@ -269,7 +269,7 @@ class CartSelectAllView(APIView):
             else:
                 cart_dict = {}
 
-        # 遍历购物车字典将所有的sku_id对应的selected设置为用户传⼊的selected
+        # 遍历购物车字典将所有的sku_id对应的selected设置为用户传入的selected
         for sku_id in cart_dict:
             cart_dict[sku_id]['selected'] = selected
 
@@ -278,7 +278,7 @@ class CartSelectAllView(APIView):
         cookie_cart_str_bytes = base64.b64encode(cookie_cart_dict_bytes)
         cookie_cart_str = cookie_cart_str_bytes.decode()
 
-        # cookie中写⼊购物车字符串
+        # cookie中写入购物车字符串
         response = Response({'message': 'OK'})
         response.set_cookie('cart', cookie_cart_str)
         return response
