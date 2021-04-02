@@ -75,6 +75,7 @@ INSTALLED_APPS = [
     'ckeditor',  # 富文本编辑器
     'ckeditor_uploader',  # 富文本编辑器上传图片模块
     'django_crontab',
+    'haystack',  # 全文搜索
 
     'users',
     'oauth',
@@ -392,3 +393,14 @@ CRONJOBS = [
     # 每1分钟执行⼀次生成主页静态⽂件
     ('*/1 * * * *', 'contents.crons.generate_static_index_html', '>>/data/milk/crontab.log')
 ]
+
+# Haystack
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+        'URL': '',  # 此处为elasticsearch运行的服务器ip地址，端口号固定为9200
+        'INDEX_NAME': 'milk',  # 指定elasticsearch建立的索引库的名称
+    },
+}
+# 当添加、修改、删除数据时，⾃动⽣成索引
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
