@@ -47,3 +47,13 @@ ADDRESS_LIMIT = {
     "errcode": 2005,
     "message": '保存地址数据已达到上限'
 }
+
+"""订单部分error 范围3000~3999"""
+ORDER_ERR = {
+    "errcode": 3000,
+    "message": '订单有误'
+}
+ORDER_ILLEGAL_ERR = {
+    "errcode": 3001,
+    "message": '非法请求'
+}
