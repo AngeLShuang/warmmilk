@@ -20,6 +20,19 @@ ALLOWED_HOSTS = ['*']
 #             'charset': 'utf8mb4'
 #         }
 #     }
+#    'slave': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'milk',
+#         'USER': 'root',
+#         'PASSWORD': '123456',
+#         'HOST': '',
+#         'PORT': '8306',
+#         'OPTIONS': {
+#             'init_command': 'SET default_storage_engine=InnoDB',
+#             'sql_mode': 'STRICT_TRANS_TABLES',
+#             'charset': 'utf8mb4'
+#         }
+#     }
 # }
 
 # Determine which requests should render Django Debug Toolbar
@@ -36,3 +49,6 @@ CRONTAB_DJANGO_SETTINGS_MODULE = 'milk.settings.dev'
 
 # Seperate Migrations
 MIGRATION_MODULES = {app: '%s.dev_migrations' % app for app in MIGRATE_APPS}
+
+# 配置读写分离
+DATABASE_ROUTERS = ['milk.utils.db_router.MasterSlaveDBRouter']

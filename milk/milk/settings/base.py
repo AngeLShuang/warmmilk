@@ -77,6 +77,10 @@ INSTALLED_APPS = [
     'django_crontab',
     'haystack',  # 全文搜索
 
+    'xadmin',
+    'crispy_forms',
+    'reversion',
+
     'users',
     'oauth',
     'areas',
@@ -404,3 +408,6 @@ HAYSTACK_CONNECTIONS = {
 }
 # 当添加、修改、删除数据时，⾃动⽣成索引
 HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+
+# 配置静态文件收集之后存放的⽬录
+STATIC_ROOT = os.path.join(os.path.dirname(os.path.dirname(BASE_DIR)), 'front_end_pc/static')
